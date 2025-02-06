@@ -79,26 +79,26 @@ class NovelDownloader:
         resp = requests.get("https://api.sfacg.com/user/Pockets?expand=novels%2Calbums%2Ccomics%2Cdiscount%2CdiscountExpireDate", headers=self.headers).json()
         
         subscriptions = []
-        if resp["status"]["httpCode"] == 200:
-            # 遍历所有小说
-            for pocket in resp["data"]:
-                if "expand" not in pocket or "novels" not in pocket["expand"]:
-                    continue
-                    
-                # 添加所有作品
-                for sub in pocket["expand"]["novels"]:
-                    try:
-                        subscriptions.append({
-                            "authorId": sub["authorId"],
-                            "novelId": sub["novelId"],
-                            "novelName": sub["novelName"],
-                            "authorName": sub["authorName"],
-                        })
-                    except KeyError as e:
-                        print(f"解析订阅数据出错: {e}")
-                        continue
-                    
-        return subscriptions
+if resp["status"]["httpCode"] == 200:
+    # 遍历所有小说
+    for pocket in resp["data"]:
+        if "expand" not in pocket or "novels" not in pocket["expand"]:
+            continue
+        
+        # 添加最多前5个作品
+        for sub in pocket["expand"]["novels"][:5]:  # 只获取前5个小说
+            try:
+                subscriptions.append({
+                    "authorId": sub["authorId"],
+                    "novelId": sub["novelId"],
+                    "novelName": sub["novelName"],
+                    "authorName": sub["authorName"],
+                })
+            except KeyError as e:
+                print(f"解析订阅数据出错: {e}")
+                continue
+
+return subscriptions
     
     def get_novel_info(self, novel_id: int) -> dict:
         """获取小说信息
