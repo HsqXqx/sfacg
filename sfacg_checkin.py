@@ -5,7 +5,7 @@ import sys
 import hashlib
 import json
 import os
-from sud import NovelDownloader
+# from sud import NovelDownloader
 
 
 
@@ -187,15 +187,15 @@ def test(cookie):
         print("Cookie无效,请重新登录")
         return
         
-    downloader = NovelDownloader(cookie)
+#     downloader = NovelDownloader(cookie)
     
-    balance = downloader.get_balance()
-    print(f"账户余额: {balance}")
+#     balance = downloader.get_balance()
+#     print(f"账户余额: {balance}")
     
-    novelName, chapters = downloader.buy_novel_chapters()
-    print(f"购买小说: {novelName}")
-    print(f"购买章节: {chapters}")
-    downloader.save_content(novelName, chapters)        
+#     novelName, chapters = downloader.buy_novel_chapters()
+#     print(f"购买小说: {novelName}")
+#     print(f"购买章节: {chapters}")
+#     downloader.save_content(novelName, chapters)        
     print("\n=== 接口测试完成 ===")
 
 
