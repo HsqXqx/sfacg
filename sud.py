@@ -86,7 +86,7 @@ if resp["status"]["httpCode"] == 200:
             continue
         
         # 添加最多前5个作品
-        for sub in pocket["expand"]["novels"][:5]:  # 只获取前5个小说
+        for sub in pocket["expand"]["novels"][:3]:  # 只获取前5个小说
             try:
                 subscriptions.append({
                     "authorId": sub["authorId"],
