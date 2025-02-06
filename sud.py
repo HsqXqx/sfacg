@@ -56,7 +56,7 @@ class NovelDownloader:
         timestamp = int(time.time() * 1000)
         sign = hashlib.md5(f"{self.nonce}{timestamp}{self.device_token}{self.salt}".encode()).hexdigest().upper()
         return f'nonce={self.nonce}&timestamp={timestamp}&devicetoken={self.device_token}&sign={sign}'
-        
+
     def get_balance(self) -> dict:
         """获取账户余额"""
         self.headers['sfsecurity'] = self.update_security_headers()
@@ -79,26 +79,26 @@ class NovelDownloader:
         resp = requests.get("https://api.sfacg.com/user/Pockets?expand=novels%2Calbums%2Ccomics%2Cdiscount%2CdiscountExpireDate", headers=self.headers).json()
         
         subscriptions = []
-if resp["status"]["httpCode"] == 200:
-    # 遍历所有小说
-    for pocket in resp["data"]:
-        if "expand" not in pocket or "novels" not in pocket["expand"]:
-            continue
-        
-        # 添加最多前5个作品
-        for sub in pocket["expand"]["novels"][:3]:  # 只获取前5个小说
-            try:
-                subscriptions.append({
-                    "authorId": sub["authorId"],
-                    "novelId": sub["novelId"],
-                    "novelName": sub["novelName"],
-                    "authorName": sub["authorName"],
-                })
-            except KeyError as e:
-                print(f"解析订阅数据出错: {e}")
-                continue
-
-return subscriptions
+        if resp["status"]["httpCode"] == 200:
+            # 遍历所有小说
+            for pocket in resp["data"]:
+                if "expand" not in pocket or "novels" not in pocket["expand"]:
+                    continue
+                    
+                # 添加最多前三本小说
+                for i, sub in enumerate(pocket["expand"]["novels"][:3]):  # 只获取前三本
+                    try:
+                        subscriptions.append({
+                            "authorId": sub["authorId"],
+                            "novelId": sub["novelId"],
+                            "novelName": sub["novelName"],
+                            "authorName": sub["authorName"],
+                        })
+                    except KeyError as e:
+                        print(f"解析订阅数据出错: {e}")
+                        continue
+                    
+        return subscriptions
     
     def get_novel_info(self, novel_id: int) -> dict:
         """获取小说信息
