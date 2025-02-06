@@ -86,7 +86,7 @@ class NovelDownloader:
                     continue
                     
                 # 添加最多前三本小说
-                for i, sub in enumerate(pocket["expand"]["novels"][:3]):  # 只获取前三本
+                for i, sub in enumerate(pocket["expand"]["novels"][:1]):  # 只获取前三本
                     try:
                         subscriptions.append({
                             "authorId": sub["authorId"],
